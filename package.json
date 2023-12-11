@@ -10,7 +10,6 @@
   "author": "Matheus Henrique Reiter",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^5.3.0",
     "figlet": "^1.7.0",
     "gradient-string": "^2.0.2",
     "inquirer": "^9.2.12"
