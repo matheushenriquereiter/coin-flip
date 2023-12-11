@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "Matheus Henrique Reiter",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
     "figlet": "^1.7.0",
     "gradient-string": "^2.0.2",
