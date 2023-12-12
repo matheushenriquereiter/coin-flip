@@ -3,6 +3,7 @@
 import figlet from "figlet";
 import gradient from "gradient-string";
 import inquirer from "inquirer";
+import chalk from "chalk";
 
 const showIntroduction = async () =>
   figlet("Coin Flip!", { horizontalLayout: "fitted" }, (error, data) => {
@@ -29,13 +30,12 @@ const askPlayerChoice = async () => {
 
   return playerChoice;
 };
-
 const handlePlayerChoice = isPlayerChoiceCorrect => {
   if (isPlayerChoiceCorrect) {
-    console.log("You won 😎😎😎\n");
-  } else {
-    console.log("You lost 💀💀💀\n");
+    return console.log("You won 😎😎😎\n");
   }
+
+  console.log("You lost 💀💀💀\n");
 };
 
 const askPlayerToContinue = async () => {
@@ -48,11 +48,30 @@ const askPlayerToContinue = async () => {
   return continuePlaying;
 };
 
+const randomizeStringBackground = string => {
+  const { bgBlue, bgCyan, bgGreen, bgRed, bgMagenta, bgYellow } = chalk;
+
+  const possibleBackgrounds = [
+    bgBlue,
+    bgCyan,
+    bgGreen,
+    bgRed,
+    bgMagenta,
+    bgYellow,
+  ];
+
+  const randomBackground =
+    possibleBackgrounds[Math.floor(Math.random() * possibleBackgrounds.length)];
+
+  return randomBackground(string);
+};
+
 const main = async () => {
   const randomChoice = flipCoin();
   const playerChoice = await askPlayerChoice();
   const isPlayerChoiceCorrect = randomChoice === playerChoice;
 
+  console.log(`The coin landed on: ${randomizeStringBackground(randomChoice)}`);
   handlePlayerChoice(isPlayerChoiceCorrect);
 
   const continuePlaying = await askPlayerToContinue();
