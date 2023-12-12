@@ -5,6 +5,10 @@ import gradient from "gradient-string";
 import inquirer from "inquirer";
 import chalk from "chalk";
 
+const getRandomElement = array => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
 const showIntroduction = async () =>
   figlet("Coin Flip!", { horizontalLayout: "fitted" }, (error, data) => {
     if (error) {
@@ -17,7 +21,7 @@ const showIntroduction = async () =>
 const flipCoin = () => {
   const sides = ["Heads", "Tails"];
 
-  return sides[Math.floor(Math.random() * 2)];
+  return getRandomElement(sides);
 };
 
 const askPlayerChoice = async () => {
@@ -60,8 +64,7 @@ const randomizeStringBackground = string => {
     bgYellow,
   ];
 
-  const randomBackground =
-    possibleBackgrounds[Math.floor(Math.random() * possibleBackgrounds.length)];
+  const randomBackground = getRandomElement(possibleBackgrounds);
 
   return randomBackground(string);
 };
