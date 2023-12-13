@@ -1,7 +1,7 @@
 {
   "name": "coin-flip",
   "version": "1.0.0",
-  "description": "",
+  "description": "A coin flip game",
   "main": "./main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
