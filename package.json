@@ -1,5 +1,5 @@
 {
-  "name": "coin-flip",
+  "name": "@matheushenriquereiter/coin-flip",
   "version": "1.0.0",
   "description": "A coin flip game",
   "main": "./main.js",
@@ -15,7 +15,7 @@
     "inquirer": "^9.2.12"
   },
   "bin": {
-    "flip": "./main.js"
+    "flip": "main.js"
   },
   "type": "module"
 }
