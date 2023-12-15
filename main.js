@@ -113,7 +113,7 @@ const main = async () => {
     const { reset } = await inquirer.prompt({
       name: "reset",
       type: "confirm",
-      message: "What to restart game?",
+      message: "Want to restart the game?",
     });
 
     if (!reset) {
