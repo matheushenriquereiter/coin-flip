@@ -24,14 +24,14 @@ const showIntroduction = async () =>
     console.log(gradient.pastel.multiline(data));
   });
 
-const randomizeStringBackground = string => {
-  const { bgBlue, bgCyan, bgRed, bgMagenta, bgYellow } = chalk;
+const handleChoiceBackground = choice => {
+  const { bgMagenta, bgCyan } = chalk;
 
-  const possibleBackgrounds = [bgBlue, bgCyan, bgRed, bgMagenta, bgYellow];
+  if (choice === "Heads") {
+    return bgMagenta(choice);
+  }
 
-  const randomBackground = getRandomElement(possibleBackgrounds);
-
-  return randomBackground(string);
+  return bgCyan(choice);
 };
 
 const flipCoin = () => {
@@ -104,11 +104,25 @@ const main = async () => {
   console.log(`Your current balance is ${chalk.black.bgGreen(money)} dollars`);
   const playerBet = await askPlayerBet();
 
-  console.log(`The coin landed on: ${randomizeStringBackground(randomChoice)}`);
+  console.log(`The coin landed on: ${handleChoiceBackground(randomChoice)}`);
   handlePlayerChoice(isPlayerChoiceCorrect, playerBet);
 
   if (money <= 0) {
-    return console.log("You are broke");
+    console.log(chalk.bgRed("You are broke"));
+
+    const { reset } = await inquirer.prompt({
+      name: "reset",
+      type: "confirm",
+      message: "What to restart game?",
+    });
+
+    if (!reset) {
+      console.log("Bye!");
+      return process.exit();
+    }
+
+    money = 200;
+    return main();
   }
 
   const continuePlaying = await askPlayerToContinue();
