@@ -5,7 +5,7 @@ import gradient from "gradient-string";
 import inquirer from "inquirer";
 import chalk from "chalk";
 
-const playerData = (() => {
+const playerData = () => {
   let money = 200;
 
   const getMoney = () => money;
@@ -19,7 +19,9 @@ const playerData = (() => {
     getMoney,
     setMoney,
   };
-})();
+};
+
+const {getMoney, setMoney} = playerData()
 
 const isNumber = value => {
   return value ? !Number.isNaN(Number(value)) : false;
@@ -30,7 +32,7 @@ const getRandomElement = array => {
 };
 
 const showIntro = async () =>
-  figlet("Coin Flip!", { horizontalLayout: "fitted" }, (error, data) => {
+  figlet("Coin Flip!", {horizontalLayout: "fitted"}, (error, data) => {
     if (error) {
       return console.log(error);
     }
@@ -39,7 +41,7 @@ const showIntro = async () =>
   });
 
 const handleChoiceBackground = choice => {
-  const { bgMagenta, bgCyan } = chalk;
+  const {bgMagenta, bgCyan} = chalk;
 
   if (choice === "Heads") {
     return bgMagenta(choice);
@@ -55,7 +57,7 @@ const flipCoin = () => {
 };
 
 const askPlayerChoice = async () => {
-  const { playerChoice } = await inquirer.prompt({
+  const {playerChoice} = await inquirer.prompt({
     name: "playerChoice",
     type: "list",
     message: "Want to bet heads or tails:",
@@ -66,7 +68,7 @@ const askPlayerChoice = async () => {
 };
 
 const askPlayerToContinue = async () => {
-  const { continuePlaying } = await inquirer.prompt({
+  const {continuePlaying} = await inquirer.prompt({
     name: "continuePlaying",
     type: "confirm",
     message: "wants to keep playing?",
@@ -76,7 +78,7 @@ const askPlayerToContinue = async () => {
 };
 
 const askPlayerBet = async money => {
-  const { amount } = await inquirer.prompt({
+  const {amount} = await inquirer.prompt({
     name: "amount",
     type: "input",
     message: "Enter the amount you want to bet:",
@@ -101,8 +103,6 @@ const askPlayerBet = async money => {
 };
 
 const handlePlayerChoice = (isPlayerChoiceCorrect, money, playerBet) => {
-  const { setMoney } = playerData;
-
   if (isPlayerChoiceCorrect) {
     setMoney(money + playerBet);
     return console.log(`You won ${playerBet} dollars 😎😎😎\n`);
@@ -112,15 +112,24 @@ const handlePlayerChoice = (isPlayerChoiceCorrect, money, playerBet) => {
   console.log(`You lost ${playerBet} dollars 💀💀💀\n`);
 };
 
+const askPlayerToReset = async () => {
+  const {reset} = await inquirer.prompt({
+
+    name: "reset",
+    type: "confirm",
+    message: "Want to restart the game?",
+  })
+
+  return reset;
+}
+
 const isBroke = () => {
-  const { getMoney } = playerData;
   const money = getMoney();
 
   return money <= 0;
 };
 
 const execGame = async () => {
-  const { getMoney, setMoney } = playerData;
   const money = getMoney();
   const randomChoice = flipCoin();
   const playerChoice = await askPlayerChoice();
@@ -135,13 +144,9 @@ const execGame = async () => {
   if (isBroke()) {
     console.log(chalk.white.bgRed("You are broke"));
 
-    const { reset } = await inquirer.prompt({
-      name: "reset",
-      type: "confirm",
-      message: "Want to restart the game?",
-    });
+    const shouldReset = await askPlayerToReset();
 
-    if (!reset) {
+    if (!shouldReset) {
       console.log("Bye!");
       return process.exit();
     }
@@ -150,9 +155,9 @@ const execGame = async () => {
     return execGame();
   }
 
-  const continuePlaying = await askPlayerToContinue();
+  const shouldContinuePlaying = await askPlayerToContinue();
 
-  if (continuePlaying) {
+  if (shouldContinuePlaying) {
     execGame();
   }
 };
